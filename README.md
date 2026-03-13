@@ -8,27 +8,36 @@ Fortress (`.frt`) is a domain-specific language built for network reconnaissance
 
 ## Installation
 
-### Prerequisites
-- [Go 1.21+](https://go.dev/dl/)
+### One-line install (Linux / macOS)
 
-### Build & Install
+No Go required. The installer downloads the correct pre-built binary for your platform.
 
 ```bash
-# Clone / extract the fortress source
-cd fortress/
+curl -fsSL https://fortress-lang.dev/install.sh | bash
+```
 
-# Linux / macOS
+Or manually:
+```bash
 chmod +x install.sh && ./install.sh
-
-# Manual build
-go build -o fortress .
-sudo mv fortress /usr/local/bin/fortress
 ```
 
 ### Windows
-```powershell
-go build -o fortress.exe .
-# Move to a directory in your PATH
+
+Download the latest `fortress-windows-amd64.exe` from the
+[Releases page](https://github.com/fortress-lang/fortress/releases),
+rename it to `fortress.exe`, and add its folder to your `PATH`.
+
+### Build from source (maintainers / contributors)
+
+```bash
+# Requires Go 1.21+ — only needed if you're building the interpreter itself
+git clone https://github.com/fortress-lang/fortress
+cd fortress
+go build -o fortress .
+
+# Cross-compile all platform binaries for a release
+chmod +x build-release.sh && ./build-release.sh
+# → produces dist/fortress-linux-amd64, fortress-darwin-arm64, fortress-windows-amd64.exe, …
 ```
 
 ---
@@ -36,14 +45,83 @@ go build -o fortress.exe .
 ## CLI Commands
 
 ```bash
-fortress run filename.frt        # Execute a .frt script
-fortress create filename.frt     # Create new script from template
-fortress --version               # Show version and build info
-fortress --help                  # Full language reference
-fortress install-icon            # Register .frt file association + icon
+fortress run script.frt              Execute a .frt script
+fortress build myapp.exe script.frt  Compile script into a self-contained executable
+fortress build myapp.exe *           Bundle ALL .frt files in the current directory
+fortress create script.frt           Create new script from template
+fortress --version                   Show version and build info
+fortress --help                      Full language reference
+fortress install-icon                Register .frt file association + icon (Windows)
 ```
 
+### Building self-contained executables
+
+The `build` command produces a **standalone executable** that embeds your `.frt`
+source inside the Fortress interpreter. The output file runs on any machine —
+no Fortress installation, no Go, no dependencies needed.
+
+```bash
+# Single script → one exe
+fortress build scanner.exe scanner.frt
+
+# Entire project → one exe  (entry point = main.frt, or first .frt alphabetically)
+fortress build myapp.exe *
+```
+
+**How it works:** The built executable is a copy of the Fortress binary with
+your script(s) appended in a compressed payload. On startup it detects the
+embedded source and runs it automatically.
+
+**Cross-platform note:** `fortress build` always produces a binary for the
+*current* platform. To ship a Windows exe from Linux, run the build step on
+Windows (or use a CI matrix).
+
 ---
+
+
+## Package Manager
+
+Fortress has a built-in package manager for installing and publishing `.frt` libraries.
+
+### Install a library
+
+```bash
+fortress get site=<library-name>            # Install from registry
+fortress get site=<library-name>@1.2.0     # Install specific version
+fortress get file=mylib-1.0.0.frtpkg       # Install from local file
+```
+
+### Manage libraries
+
+```bash
+fortress list                               # Show all installed libraries
+fortress info site=<library-name>          # Show library details and exports
+fortress remove site=<library-name>        # Uninstall a library
+```
+
+### Publish a library
+
+```bash
+fortress myscript.frt create lib site=mylib          # Publish one file
+fortress * create lib site=mylib                     # Publish all .frt files in directory
+```
+
+The interactive wizard will prompt for: display name, version, author, description, license, tags, homepage, and repository. After publishing, a `.frtpkg` archive is created that you can share or upload to GitHub.
+
+### Use a library in scripts
+
+```
+import mylib
+import mylib as ml
+
+mylib.myProbe("target.com")
+ml.myProbe("target.com")       // same thing with alias
+```
+
+Libraries are installed to:
+- **Windows:** `%APPDATA%\Fortress\libs\`
+- **Linux:** `~/.fortress/libs/`
+- **macOS:** `~/Library/Fortress/libs/`
 
 ## Language Reference
 
