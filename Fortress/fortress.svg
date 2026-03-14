@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d1f2d;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="hex" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffcc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0077ff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="62" fill="url(#bg)" stroke="#00ffcc" stroke-width="1.5" opacity="0.9"/>
+  <!-- Outer hexagon -->
+  <polygon points="64,8 111,36 111,92 64,120 17,92 17,36"
+           fill="none" stroke="url(#hex)" stroke-width="2.5" filter="url(#glow)" opacity="0.85"/>
+  <!-- Inner hexagon -->
+  <polygon points="64,22 97,41 97,79 64,98 31,79 31,41"
+           fill="none" stroke="#00ffcc" stroke-width="1.5" opacity="0.5"/>
+  <!-- Tower left -->
+  <rect x="26" y="44" width="10" height="24" fill="#00ccff" opacity="0.8" rx="1"/>
+  <rect x="24" y="40" width="5" height="8" fill="#00ccff" opacity="0.8" rx="1"/>
+  <rect x="31" y="40" width="5" height="8" fill="#00ccff" opacity="0.8" rx="1"/>
+  <!-- Tower right -->
+  <rect x="92" y="44" width="10" height="24" fill="#00ccff" opacity="0.8" rx="1"/>
+  <rect x="90" y="40" width="5" height="8" fill="#00ccff" opacity="0.8" rx="1"/>
+  <rect x="97" y="40" width="5" height="8" fill="#00ccff" opacity="0.8" rx="1"/>
+  <!-- Wall -->
+  <rect x="36" y="56" width="56" height="16" fill="#0077cc" opacity="0.7" rx="1"/>
+  <!-- Gate -->
+  <rect x="56" y="60" width="16" height="12" fill="#0a0a1a" rx="2"/>
+  <path d="M56,65 Q64,58 72,65" fill="none" stroke="#00ffcc" stroke-width="1.5"/>
+  <!-- Top signal dots -->
+  <circle cx="64" cy="32" r="3" fill="#00ffcc" filter="url(#glow)"/>
+  <circle cx="64" cy="32" r="1.5" fill="#ffffff"/>
+  <!-- Scan rings -->
+  <circle cx="64" cy="32" r="7" fill="none" stroke="#00ffcc" stroke-width="0.8" opacity="0.4"/>
+  <circle cx="64" cy="32" r="11" fill="none" stroke="#00ffcc" stroke-width="0.6" opacity="0.25"/>
+  <!-- Label -->
+  <text x="64" y="114" font-family="monospace" font-size="9" font-weight="bold"
+        fill="#00ffcc" text-anchor="middle" letter-spacing="3" opacity="0.9">.FRT</text>
+</svg>
