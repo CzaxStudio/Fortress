@@ -22,6 +22,7 @@
 
 Fortress is a scripting language designed from the ground up for security professionals, OSINT analysts, and network engineers. Write readable, expressive scripts that perform DNS resolution, port scanning, geolocation, TLS inspection, certificate monitoring, and threat intelligence — then ship them as standalone executables that run on any machine with no dependencies.
 
+# IMPORTANT
 **Download From Releases for Linux and Mac**
 
 ---
